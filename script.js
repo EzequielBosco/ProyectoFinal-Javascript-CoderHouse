@@ -7,6 +7,12 @@ function filtrar(propiedad, valor) {
     return filtrado
 }
 
+function listarProductos(productoComprar, cantidadUnidades) {
+    return productoComprar.map(producto => {
+        return `ID: ${producto.id}, Nombre: ${producto.nombre}, Unidades: ${cantidadUnidades}, Precio: ${producto.precioConIva() * cantidadUnidades} pesos.\n`
+    }).join("\n")
+}
+
 let informatica = [
     {   id: 1,
         categoria : "celulares",
@@ -103,20 +109,21 @@ let listaProductos = productos.map(producto => producto.id + " " + producto.cate
 
 let menu;
 let categorias;
+let cantidadUnidades;
 do {
-    menu = parseInt(prompt(`Ingrese la operación a realizar:\n1 - Buscar productos\n2 - Agregar al carrito\n0 - Salir`))
+    menu = parseInt(prompt(`Ingrese la operación a realizar:\n1 - Buscar productos\n2 - Agregar al carrito\n3 - Mostrar carrito\n0 - Salir`))
 
     switch (menu) {
         case 0:
             break;
         case 1: 
-            categorias = prompt("Ingrese una categoria:").toLowerCase();
+            categorias = prompt("Ingrese una categoria: (celulares o tablets)").toLowerCase();
             let productosFiltrados = filtrar('categoria', categorias);
             let nombresProductos = productosFiltrados.map(producto => producto.nombre);
             if (informatica.some(producto => producto.categoria == categorias)) {
                 alert(`Productos encontrados en categoria ${categorias}: \n` + nombresProductos.join('\n'));
             } else {
-                alert("La categoria no fue encontrada")
+                alert("La categoria no fue encontrada");
             }
             break;
         case 2:
@@ -125,12 +132,12 @@ do {
                 opcion = parseInt(prompt(`Productos disponibles:\n${listaProductos}\nIngrese el número del producto que desea comprar (0 para salir):`))
                 let productoComprar = productos.find(producto => producto.id === opcion);
                 if (productoComprar) {
-                    let cantidadUnidades = parseInt(prompt(`Producto seleccionado: ${productoComprar.nombre}\n- Stock disponible: ${productoComprar.stock}\nIngrese la cantidad que desea comprar:`));
+                    cantidadUnidades = parseInt(prompt(`Producto seleccionado: ${productoComprar.nombre}\n- Stock disponible: ${productoComprar.stock}\nIngrese la cantidad que desea comprar:`));
                     
                     if (cantidadUnidades <= productoComprar.stock && cantidadUnidades > 0) {
-                        carrito.push(productoComprar, cantidadUnidades)
+                        carrito.push({producto: productoComprar, cantidad: cantidadUnidades})
                         productoComprar.stock -= cantidadUnidades;
-                        alert(`${usuario}, se agregó ${productoComprar.nombre} (${cantidadUnidades} unidades) al carrito por un total de ${productoComprar.precioConIva() * cantidadUnidades} pesos.`)
+                        alert(`${usuario}\nSe agregó ${productoComprar.nombre} (${cantidadUnidades} unidades) al carrito por un total de ${productoComprar.precioConIva() * cantidadUnidades} pesos.`)
                     } else if (cantidadUnidades < 1) {
                         alert("Ingrese un número de stock válido")
                     } else {
@@ -138,6 +145,22 @@ do {
                     }
                 } 
             } while (opcion != 0)
+            break;
+        case 3: 
+            if (carrito.length <= 0) {
+                alert("No hay productos en su carrito.")
+            } else {
+                let total = 0;
+                let mensaje = `${usuario}\nSus productos en carrito son:\n`
+                    carrito.forEach(item => {
+                        let producto = item.producto;
+                        let cantidad = item.cantidad;
+                        total += producto.precioConIva() * cantidad;
+                        mensaje +=  listarProductos([producto], cantidad);
+                });
+                mensaje += `Total: ${total} pesos (incluido el IVA).`
+                alert(mensaje);
+            }
             break;
         default:
             alert("Elija una opción")
