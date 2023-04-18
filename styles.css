@@ -2,12 +2,24 @@ body {
     background-color: rgb(212, 212, 212);
 }
 
+button {
+    background-color: black;
+    color:white; 
+}
+
+#comprar {
+    background-color: white;
+    color:black;
+    border-radius: 15px;
+}
+
 #carrito {
     border: 2px solid black;
     border-radius: 20px;
     background-color: black;
     color: rgb(255, 255, 255);
     padding: 15px;
+    margin-top: 15px;
     margin-bottom: 20px;
 }
 
@@ -17,6 +29,7 @@ body {
     flex-wrap: wrap;
     flex-direction:row;
     align-items: start;
+    justify-content: space-around;
 }
 
 .titulo-producto {
@@ -46,7 +59,7 @@ body {
     align-items: center;
     justify-content: start;
     margin-right: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding: 10px;
 }
 

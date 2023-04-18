@@ -26,10 +26,10 @@ let informatica = [
         categoria : "celulares",
         nombre : "galaxys23",
         imagen : {
-            frente : "img/s23uf.png",
-            derecha : "img/s23ud.png",
-            izquierda : "img/s23ud.png",
-            atras : "img/s23ua.png",
+            frente : "img/s23f.png",
+            derecha : "img/s23d.png",
+            izquierda : "img/s23d.png",
+            atras : "img/s23a.png",
         },
         precio : 339999,
         stock : 15
@@ -38,10 +38,10 @@ let informatica = [
         categoria : "celulares",
         nombre : "galaxys23+",
         imagen : {
-            frente : "img/s23uf.png",
-            derecha : "img/s23ud.png",
-            izquierda : "img/s23ud.png",
-            atras : "img/s23ua.png",
+            frente : "img/s23f.png",
+            derecha : "img/s23d.png",
+            izquierda : "img/s23d.png",
+            atras : "img/s23a.png",
         },
         precio : 379999,
         stock : 10
@@ -62,10 +62,10 @@ let informatica = [
         categoria : "tablets",
         nombre : "galaxytabs8",
         imagen : {
-            frente : "img/s8ultraf.png",
-            derecha : "img/s8ultrad.png",
-            izquierda : "img/s8ultrai.png",
-            atras : "img/s8ultraa.png",
+            frente : "img/s8f.png",
+            derecha : "img/s8d.png",
+            izquierda : "img/s8i.png",
+            atras : "img/s8a.png",
         },
         precio : 313999,
         stock : 5
@@ -74,10 +74,10 @@ let informatica = [
         categoria : "tablets",
         nombre : "galaxytabs8+",
         imagen : {
-            frente : "img/s8ultraf.png",
-            derecha : "img/s8ultrad.png",
-            izquierda : "img/s8ultrai.png",
-            atras : "img/s8ultraa.png",
+            frente : "img/s8+f.png",
+            derecha : "img/s8+d.png",
+            izquierda : "img/s8+i.png",
+            atras : "img/s8+a.png",
         },
         precio : 390999,
         stock : 10
@@ -86,27 +86,87 @@ let informatica = [
         categoria : "tablets",
         nombre : "galaxytabs8ultra",
         imagen : {
-            frente : "img/s8ultraf.png",
-            derecha : "img/s8ultrad.png",
-            izquierda : "img/s8ultrai.png",
-            atras : "img/s8ultraa.png",
+            frente : "img/s8uf.png",
+            derecha : "img/s8ud.png",
+            izquierda : "img/s8ui.png",
+            atras : "img/s8ua.png",
         },
         precio : 569999,
         stock : 5
+    },
+    {   id: 7,
+        categoria : "celulares",
+        nombre : "galaxyzfold4",
+        imagen : {
+            frente : "img/zfold4f.png",
+            derecha : "img/zfold4d.png",
+            izquierda : "img/zfold4i.png",
+            atras : "img/zfold4a.png",
+        },
+        precio : 569999,
+        stock : 5
+    },
+    {   id: 8,
+        categoria : "celulares",
+        nombre : "galaxyzflip4",
+        imagen : {
+            frente : "img/zflip4f.png",
+            derecha : "img/zflip4d.png",
+            izquierda : "img/zflip4i.png",
+            atras : "img/zflip4a.png",
+        },
+        precio : 299999,
+        stock : 10
+    },
+    {   id: 9,
+        categoria : "celulares",
+        nombre : "galaxyzfold3",
+        imagen : {
+            frente : "img/zfold3f.png",
+            derecha : "img/zfold3d.png",
+            izquierda : "img/zfold3i.png",
+            atras : "img/zfold3a.png",
+        },
+        precio : 379999,
+        stock : 10
+    },
+    {   id: 10,
+        categoria : "celulares",
+        nombre : "galaxyzflip3",
+        imagen : {
+            frente : "img/zflip3f.png",
+            derecha : "img/zflip3d.png",
+            izquierda : "img/zflip3i.png",
+            atras : "img/zflip3a.png",
+        },
+        precio : 229999,
+        stock : 15
     }
 ]
 
+let iniciarSesion = document.getElementById("iniciar-sesion")
+iniciarSesion.addEventListener("click", crearUsuario)
+
 let usuario;
-do {
-    let palabra = prompt("Ingrese su nombre: ")
-    usuario = primerLetraMayuscula(palabra)
-    if (isNaN(usuario)) {
-      alerta("","¡Bienvenido!\nSu nombre de usuario ahora es: ", usuario);
-      break;
-    } else {
-      alerta("", "El nombre de usuario debe contener caracteres de texto", "Intente nuevamente");
+function crearUsuario() {
+  Swal.fire({
+    title: "Ingrese su nombre",
+    input: "text",
+    showCancelButton: true,
+    confirmButtonText: "Guardar",
+    cancelButtonText: "Cancelar",
+    inputValidator: (value) => {
+      if (!value) {
+        return "Por favor ingresa un nombre válido";
+      }
     }
-} while (usuario != isNaN)
+  }).then((resultado) => {
+    if (resultado.isConfirmed) {
+        usuario = primerLetraMayuscula(resultado.value);
+        Swal.fire("Tu nombre de usuario es:", `${usuario}`);
+    }
+  });
+}
 
 let carritoDOM = document.getElementById("carrito")
 
@@ -160,11 +220,28 @@ function filtrarPorPrecio() {
     mostrarProductos(productosOrdenados);
 }
 
+let botonCategorias = document.getElementById("btn-categoria")
+botonCategorias.addEventListener("click", filtrarPorCategorias)
+
+function filtrarPorCategorias() {
+    let filtrados = document.getElementById("filtro-categoria")
+    let opcion = filtrados.value
+    if (opcion === "celulares") {
+        productosPorCategoria = informatica.filter(producto => producto.categoria === "celulares");
+    } else if (opcion === "tablets") {
+        productosPorCategoria = informatica.filter(producto => producto.categoria === "tablets");
+    } else {
+        productosPorCategoria = informatica;
+    }
+    
+    mostrarProductos(productosPorCategoria);
+}
+
 function agregarProductoAlCarrito(e) {
     let posicionProd = informatica.findIndex(producto => producto.id == e.target.id)
     let productoBuscado = informatica.find(producto => producto.id === Number(e.target.id))
     if (informatica[posicionProd].stock > 0) {
-        alerta("", "Producto agregado al carrito")
+        alertaBaja("Producto agregado al carrito")
         
         let elementoSpan = document.getElementById("span" + e.target.id)
         informatica[posicionProd].stock--
@@ -216,6 +293,15 @@ function mostrarCarrito() {
     let contenedorProductos = document.getElementById("contenedorProductos")
     carritoDOM.classList.toggle("ocultar")
     contenedorProductos.classList.toggle("ocultar")
+}
+
+function alertaBaja(text) {
+    Toastify({
+        text: text,
+        duration: 2000,
+        gravity: 'top',
+        position: 'right',
+    }).showToast();    
 }
 
 // let menu;
@@ -281,12 +367,5 @@ function mostrarCarrito() {
 
 // tostadita("hola")
 
-// function tostadita(text) {
-//     Toastify({
-//         text: text,
-//         duration: 2000,
-//         gravity: 'top',
-//         position: 'right',
-//     }).showToast();    
-// }
+
 // filtrar por precio, ordenar por popularidad, ordenar alfabeticamente, eliminar del carrito
