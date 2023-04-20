@@ -277,14 +277,19 @@ function agregarProductoAlCarrito(e) {
 }
 
 function renderizarCarrito(arrayDeProductos) {
+    if (carrito.length > 0) {
     carritoDOM.innerHTML = `<h3>En carrito: </h3>`
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal }) => {
       carritoDOM.innerHTML += `<h4>Producto: ${nombre}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}</h4>`
     })
     carritoDOM.innerHTML += `<button id=comprar>Finalizar compra</button>`
+    
 
     let botonComprar = document.getElementById("comprar")
     botonComprar.addEventListener("click", finalizarCompra)
+    } else {
+        carritoDOM.innerHTML = `<p>VACIO</p>`
+    }
 }
 
 let buscador = document.getElementById("buscador")
