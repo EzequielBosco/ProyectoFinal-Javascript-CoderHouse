@@ -171,10 +171,14 @@ function crearUsuario() {
 let carritoDOM = document.getElementById("carrito")
 
 function finalizarCompra() {
+    if (usuario) {
     alerta("", `${usuario}, muchas gracias por su compra`)
     localStorage.removeItem("carrito")
     carrito = []
     renderizarCarrito(carrito)
+    } else {
+        alerta("error", "Por favor inicie sesion")
+    }
 }
 
 let carrito = JSON.parse(localStorage.getItem("carrito")) || []
@@ -192,7 +196,12 @@ function mostrarProductos(arrayProductos) {
         tarjetaProducto.innerHTML = `
             <h3 class=titulo-producto>${primerLetraMayuscula(producto.nombre)}</h3>
             <p class=categoria-producto>${primerLetraMayuscula(producto.categoria)}</p>
-            <img width="200px" height="180px" src="${producto.imagen.frente}"></img>
+            <section class=imagenes>
+                <img src="${producto.imagen.frente}"></img>
+                <img src="${producto.imagen.derecha}"></img>
+                <img src="${producto.imagen.izquierda}"></img>
+                <img src="${producto.imagen.atras}"></img>
+            </section>
             <h3 class=categoria-precio>Precio: ${producto.precio}</h3>
             <p>Quedan <span id=span${producto.id}>${producto.stock}</span> unidades</p>
             <button class=boton-agregar id=${producto.id}>AGREGAR AL CARRITO</button>
