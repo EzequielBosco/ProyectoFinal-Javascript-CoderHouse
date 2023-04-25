@@ -1,16 +1,24 @@
 body {
-    background-color: rgb(212, 212, 212);
+    background-color: rgb(255, 255, 255);
 }
 
 button {
-    background-color: black;
+    background-color: rgb(15, 15, 15);
     color:white; 
+}
+
+p {
+    font-size: 18px;
+}
+
+a {
+    cursor: pointer;
 }
 
 .imagenes {
     display: flex;
-    width: 550px;
-    height: 130px;
+    width: 240px;
+    height: 180px;
 }
 
 .imagenes img {
@@ -31,14 +39,13 @@ button {
 
 #comprar {
     background-color: white;
-    color:black;
+    color:rgb(15, 15, 15);
     border-radius: 15px;
 }
 
 #carrito {
-    border: 2px solid black;
     border-radius: 20px;
-    background-color: black;
+    background-color: rgb(15, 15, 15);
     color: rgb(255, 255, 255);
     padding: 15px;
     margin-top: 15px;
@@ -67,14 +74,14 @@ button {
 }
 
 .boton-agregar {
-    background-color: black;
+    background-color: rgb(15, 15, 15);
     color:white;
     border-radius: 20px;
 }
 
 .tarjetaProducto {
-    background-color: white;
-    border: 1.5px solid black;
+    background-color: rgb(247, 247, 247);
+    border: 0.2px solid rgb(214, 214, 214);
     border-radius: 15px;
     display: flex;
     flex-direction: column;

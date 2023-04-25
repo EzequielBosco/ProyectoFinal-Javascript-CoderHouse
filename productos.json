@@ -1,0 +1,122 @@
+[
+    {   "id": 1,
+        "categoria" : "celulares",
+        "nombre" : "galaxys23",
+        "imagen" : {
+            "frente" : "img/s23f.png",
+            "derecha" : "img/s23d.png",
+            "izquierda" : "img/s23d.png",
+            "atras" : "img/s23a.png"
+        },
+        "precio" : 339999,
+        "stock" : 15
+    },
+    {   "id": 2,
+        "categoria" : "celulares",
+        "nombre" : "galaxys23+",
+        "imagen" : {
+            "frente" : "img/s23f.png",
+            "derecha" : "img/s23d.png",
+            "izquierda" : "img/s23d.png",
+            "atras" : "img/s23a.png"
+        },
+        "precio" : 379999,
+        "stock" : 10
+    },
+    {   "id": 3,
+        "categoria" : "celulares",
+        "nombre" : "galaxys23ultra",
+        "imagen" : {
+            "frente" : "img/s23uf.png",
+            "derecha" : "img/s23ud.png",
+            "izquierda" : "img/s23ud.png",
+            "atras" : "img/s23ua.png"
+        },
+        "precio" : 499999,
+        "stock" : 5
+    },
+    {   "id": 4,
+        "categoria" : "tablets",
+        "nombre" : "galaxytabs8",
+        "imagen" : {
+            "frente" : "img/s8f.png",
+            "derecha" : "img/s8d.png",
+            "izquierda" : "img/s8i.png",
+            "atras" : "img/s8a.png"
+        },
+        "precio" : 313999,
+        "stock" : 5
+    },
+    {   "id": 5,
+        "categoria" : "tablets",
+        "nombre" : "galaxytabs8+",
+        "imagen" : {
+            "frente" : "img/s8+f.png",
+            "derecha" : "img/s8+d.png",
+            "izquierda" : "img/s8+i.png",
+            "atras" : "img/s8+a.png"
+        },
+        "precio" : 390999,
+        "stock" : 10
+    },
+    {   "id": 6,
+        "categoria" : "tablets",
+        "nombre" : "galaxytabs8ultra",
+        "imagen" : {
+            "frente" : "img/s8uf.png",
+            "derecha" : "img/s8ud.png",
+            "izquierda" : "img/s8ui.png",
+            "atras" : "img/s8ua.png"
+        },
+        "precio" : 569999,
+        "stock" : 5
+    },
+    {   "id": 7,
+        "categoria" : "celulares",
+        "nombre" : "galaxyzfold4",
+        "imagen" : {
+            "frente" : "img/zfold4f.png",
+            "derecha" : "img/zfold4d.png",
+            "izquierda" : "img/zfold4i.png",
+            "atras" : "img/zfold4a.png"
+        },
+        "precio" : 569999,
+        "stock" : 5
+    },
+    {   "id": 8,
+        "categoria" : "celulares",
+        "nombre" : "galaxyzflip4",
+        "imagen" : {
+            "frente" : "img/zflip4f.png",
+            "derecha" : "img/zflip4d.png",
+            "izquierda" : "img/zflip4i.png",
+            "atras" : "img/zflip4a.png"
+        },
+        "precio" : 299999,
+        "stock" : 10
+    },
+    {   "id": 9,
+        "categoria" : "celulares",
+        "nombre" : "galaxyzfold3",
+        "imagen" : {
+            "frente" : "img/zfold3f.png",
+            "derecha" : "img/zfold3d.png",
+            "izquierda" : "img/zfold3i.png",
+            "atras" : "img/zfold3a.png"
+        },
+        "precio" : 379999,
+        "stock" : 10
+    },
+    {   "id": 10,
+        "categoria" : "celulares",
+        "nombre" : "galaxyzflip3",
+        "imagen" : {
+            "frente" : "img/zflip3f.png",
+            "derecha" : "img/zflip3d.png",
+            "izquierda" : "img/zflip3i.png",
+            "atras" : "img/zflip3a.png"
+        },
+        "precio" : 229999,
+        "stock" : 15
+    }
+]

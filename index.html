@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página principal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -18,11 +19,12 @@
     <section>
         <div class="container">
             <button id="iniciar-sesion">Iniciar sesion</button>
-            <button id="botonCarrito">MOSTRAR CARRITO</button>
+            <a id="botonCarrito"><img src="https://img.icons8.com/pulsar-line/48/null/shopping-cart.png"/></a>
             <div class="ocultar" id="carrito">
             
             </div>
             <input id="buscador" placeholder="Busca tu producto...">
+            <!-- <button id="buscar">BUSCAR</button> -->
             <button id="btn-precio">Filtrar por precio</button>
             <select id="filtro-precio">
                 <option value="mayor">Mayor a menor</option>
@@ -35,6 +37,33 @@
                 <option value="tablets">tablets</option>
             </select>
         </div>
+
+        <!-- <div class="ocultar" id="pantallaCompra">
+            <input type="text" id="buscador" placeholder="Buscar por nombre">
+            
+            <label><input class="input" type="checkbox" id="indumentaria" value="indumentaria"/>Indumentaria</label>
+            <label><input class="input" type="checkbox" id="deportes" value="deportes"/>Deportes</label>
+            <label><input class="input" type="checkbox" id="accesorios" value="accesorios"/>Accesorios</label>
+            <div id="contenedorProductos">
+          
+            </div>
+          </div> -->
+
+        <!-- <div id="login">
+            <h2>REGISTRARSE</h2>
+            <input id="usuario" placeholder="usuario">
+            <input id="contrasenia" placeholder="Contraseña">
+            <button id="registrarse">REGISTRARSE</button>
+            
+            <br>
+            
+            <h2>INICIAR SESION</h2>
+            <input id="usuarioIS" placeholder="usuario">
+            <input id="contraseniaIS" placeholder="Contraseña">
+            <button id="iniciarSesion">INICIAR SESION</button>
+        
+          </div> -->
+
         <div class="container">
             <h2>Productos:</h2>
             <div id="contenedorProductos">

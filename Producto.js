@@ -7,8 +7,4 @@ class Producto {
       this.precio = precio
       this.stock = stock
     }
-    precioConIva() {
-        const iva = 0.105;
-        return this.precio + (this.precio * iva);
-    }
 }
