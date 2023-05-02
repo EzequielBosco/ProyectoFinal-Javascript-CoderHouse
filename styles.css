@@ -5,14 +5,91 @@ body {
 button {
     background-color: rgb(15, 15, 15);
     color:white; 
+    border-radius: 20px;
+}
+
+button:hover {
+    transform: scale(1.02);
+    background-color: rgb(15, 15, 15);
+    animation-name: efecto-button;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+
+@keyframes efecto-button {
+    20% {background-color: #303030;}
+    100% {background-color:rgb(15, 15, 15)}
+}
+
+input {
+    border-radius: 15px;
+    padding: 2px 5px 2px 10px
+}
+
+select {
+    border-radius: 20px;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+nav button {
+    margin-right: 15px;
+}
+
+nav div {
+    justify-content: end;
+}
+
+.navbar-collapse {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 p {
+    font-family: 'Roboto';
     font-size: 18px;
 }
 
+ul li {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    margin-left: 15px;
+}
+
+ul li a {
+    font-size: 20px;
+}
+
+ul li a.active {
+    text-decoration-color:#151515;
+    text-decoration-style: solid;
+    text-decoration-line: underline;
+    font-weight: bold;
+}
+
 a {
+    font-family: 'Roboto';
     cursor: pointer;
+    color: #151515
+}
+
+a:link, a:visited, a:active { 
+    text-decoration: none;
+}
+a:hover {
+    color:#585858
 }
 
 .imagenes {
@@ -30,11 +107,11 @@ a {
 }
 
 .imagenes img:hover {
-    cursor: pointer;
+    cursor:pointer;
     width: 300;
     opacity: 1;
     filter: contrast(110%);
-    transform: scale(1.2);
+    transform: scale(1.10);
 }
 
 #comprar {
@@ -44,16 +121,46 @@ a {
 }
 
 #carrito {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 40%;
+    border: 1px solid rgb(141, 141, 141);
+    box-shadow: 2px 5px 8px 1px rgba(26, 26, 26, 0.2);
     border-radius: 20px;
     background-color: rgb(15, 15, 15);
     color: rgb(255, 255, 255);
     padding: 15px;
     margin-top: 15px;
     margin-bottom: 20px;
+    align-items: end;
+    justify-content: end;
+    z-index: 10;
+    height: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    margin-top: 3.5rem;
+}
+
+#botonCarrito {
+    margin-right: 15px;
+}
+
+.buscador-filtros {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    color: white;
+}
+
+.separador-section {
+    background-color: #151515;
+    padding: 20px 0px 20px 0px;
 }
 
 #contenedorProductos {
     padding: 15px;
+    margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction:row;
@@ -70,7 +177,7 @@ a {
 }
 
 .categoria-precio {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .boton-agregar {
@@ -90,6 +197,19 @@ a {
     margin-right: 15px;
     margin-bottom: 20px;
     padding: 10px;
+    box-shadow: 2px 2px rgb(105, 105, 105), -1rem 10px 0.5rem rgb(185, 185, 185)
+}
+
+.tarjetaProducto:hover {
+    animation-name: tarjeta-escala;
+    animation-duration: 0.5s;
+    animation-timing-function:ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes tarjeta-escala {
+0% {transform: scale(1)}
+100% {transform: scale(0.95)}
 }
 
 .ocultar {
@@ -98,4 +218,27 @@ a {
 
 .mostrar {
     display: flex;
+}
+
+footer {
+    height: 125px;
+    background-color: #151515;
+    color:rgb(255, 255, 255)
+}
+footer a {
+    color: white;
+}
+
+footer a i {
+    font-size: 1.3rem;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+footer p {
+    font-size: 12px;
+}
+
+.columnas-footer {
+    margin-top:20px
 }

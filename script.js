@@ -17,6 +17,40 @@ fetch("productos.json")
         })
 })
 
+// REGISTRO
+let sesionIniciada;
+let registro = document.getElementById("login")
+let pantallaCompra = document.getElementById("pantallaCompra")
+
+// REGISTRARSE
+let usuario = document.getElementById("usuario")
+let contrasenia = document.getElementById("contrasenia")
+let registrarse = document.getElementById("registrarse")
+
+registrarse.addEventListener("click", () => {
+  let infoUsuario = { usuario: usuario.value, contrasenia: contrasenia.value}
+  localStorage.setItem("infoUsuario", JSON.stringify(infoUsuario))
+  registro.classList.add("ocultar")
+  sesionIniciada = false
+})
+
+// INICIAR SESION
+let usuarioIS = document.getElementById("usuarioIS")
+let contraseniaIS = document.getElementById("contraseniaIS")
+let iniciarSesion = document.getElementById("iniciarSesion")
+
+
+let infoUsuario;
+iniciarSesion.addEventListener("click", () => {
+  infoUsuario = JSON.parse(localStorage.getItem("infoUsuario"))
+  sesionIniciada = true
+  if (infoUsuario.usuario == usuarioIS.value && infoUsuario.contrasenia == contraseniaIS.value) {
+    alerta("success", "Tu nombre de usuario es:", `${infoUsuario.usuario}`)   
+  } else {
+    alerta("error", "Datos incorrectos, intente nuevamente")
+  }
+})
+
 function mostrarProductos(arrayProductos) {
     let contenedor = document.getElementById("contenedorProductos")
     contenedor.innerHTML = ""
@@ -31,7 +65,7 @@ function mostrarProductos(arrayProductos) {
             <section class=imagenes>
                 <img onmouseover="cambiarImagen(this, '${producto.imagen.atras}')" onmouseout="restaurarImagen(this)" src="${producto.imagen.frente}" data-original-src="${producto.imagen.frente}" data-atras-src="${producto.imagen.atras}"></img>
             </section>
-            <h3 class=categoria-precio>Precio: ${producto.precio}</h3>
+            <h4 class=categoria-precio>Precio: ${producto.precio}</h4>
             <p>Quedan <span id=span${producto.id}>${producto.stock}</span> unidades</p>
             <button class=boton-agregar id=${producto.id}>AGREGAR AL CARRITO</button>
         `
@@ -84,9 +118,10 @@ function agregarProductoAlCarrito(e, informatica) {
 function renderizarCarrito(arrayDeProductos) {
     if (carrito.length > 0) {
     carritoDOM.innerHTML = `<h4>En carrito: </h4>`
+    carritoDOM.style.height = "90%"
     let precioTotal = 0;
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal}) => {
-        carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${nombre}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}</p>`
+        carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${primerLetraMayuscula(nombre)}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}</p>`
         precioTotal += subtotal
     }) 
     carritoDOM.innerHTML += `<h4>Precio total con IVA: ${precioConIva(precioTotal)}</h4>`
@@ -96,7 +131,8 @@ function renderizarCarrito(arrayDeProductos) {
     let botonComprar = document.getElementById("comprar")
     botonComprar.addEventListener("click", finalizarCompra)
     } else {
-        carritoDOM.innerHTML = `<p>VACIO</p>`
+        carritoDOM.innerHTML = `<h4>CARRITO VACIO</h4>`
+        carritoDOM.style.height = "15%";
     }
 }
 
@@ -117,8 +153,8 @@ function mostrarCarrito() {
 }
 
 function finalizarCompra() {
-    if (usuario) {
-    alerta("", `¡Muchas gracias por su compra!`, `${primerLetraMayuscula(usuario)}, te enviamos un correo con la factura`)
+    if (sesionIniciada) {
+    alerta("", `¡Muchas gracias por su compra!`, `${primerLetraMayuscula(infoUsuario.usuario)}, te enviamos un correo con la factura`)
     localStorage.removeItem("carrito")
     carrito = []
     renderizarCarrito(carrito)
@@ -175,35 +211,35 @@ function alertaBaja(text) {
     Toastify({
         text: text,
         duration: 2000,
-        gravity: 'top',
+        gravity: 'bottom',
         position: 'right',
     }).showToast();    
 }
 
-let usuario;
-function crearUsuario() {
+// let usuario;
+// function crearUsuario() {
     
-  Swal.fire({
-    title: "Ingrese su nombre",
-    input: "text",
-    showCancelButton: true,
-    confirmButtonText: "Guardar",
-    cancelButtonText: "Cancelar",
-    inputValidator: (value) => {
-      if (!value) {
-        return "Por favor ingresa un nombre válido";
-      }
-    }
-  }).then((resultado) => {
-    if (resultado.isConfirmed) {
-        usuario = resultado.value.toLowerCase();
-        Swal.fire("Tu nombre de usuario es:", `${usuario}`);
-    }
-  });
-}
+//   Swal.fire({
+//     title: "Ingrese su nombre",
+//     input: "text",
+//     showCancelButton: true,
+//     confirmButtonText: "Guardar",
+//     cancelButtonText: "Cancelar",
+//     inputValidator: (value) => {
+//       if (!value) {
+//         return "Por favor ingresa un nombre válido";
+//       }
+//     }
+//   }).then((resultado) => {
+//     if (resultado.isConfirmed) {
+//         usuario = resultado.value.toLowerCase();
+//         Swal.fire("Tu nombre de usuario es:", `${usuario}`);
+//     }
+//   });
+// }
 
-const iniciarSesion = document.getElementById("iniciar-sesion")
-iniciarSesion.addEventListener("click", crearUsuario)
+// const iniciarSesion = document.getElementById("iniciar-sesion")
+// iniciarSesion.addEventListener("click", crearUsuario)
 
 let botonPrecio = document.getElementById("btn-precio")
 botonPrecio.addEventListener("click", filtrarPorPrecio)
@@ -266,41 +302,6 @@ function filtrarPorCategorias() {
 //   } */
 //   renderizarTarjetas(arrayFiltrado.length > 0 ? arrayFiltrado : productos)
 // }
-
-
-
-// REGISTRO
-// let login = document.getElementById("login")
-// let pantallaCompra = document.getElementById("pantallaCompra")
-
-// // REGISTRARSE
-// let usuario = document.getElementById("usuario")
-// let contrasenia = document.getElementById("contrasenia")
-// let registrarse = document.getElementById("registrarse")
-
-// registrarse.addEventListener("click", () => {
-//   console.log(usuario.value)
-//   console.log(contrasenia.value)
-//   let infoUsuario = { usuario: usuario.value, contrasenia: contrasenia.value}
-//   localStorage.setItem("infoUsuario", JSON.stringify(infoUsuario))
-// })
-
-// // INICIAR SESION
-// let usuarioIS = document.getElementById("usuarioIS")
-// let contraseniaIS = document.getElementById("contraseniaIS")
-// let iniciarSesion = document.getElementById("iniciarSesion")
-
-// iniciarSesion.addEventListener("click", () => {
-//   let infoUsuario = JSON.parse(localStorage.getItem("infoUsuario"))
-//   if (infoUsuario.usuario == usuarioIS.value && infoUsuario.contrasenia == contraseniaIS.value) {
-//     alert("Bienvenido")   
-//     login.classList.add("ocultar")
-//     pantallaCompra.classList.remove("ocultar")
-//   } else {
-//     alert("Datos incorrectos, reintente")
-//   }
-// })
-
 
 
 // PRODUCTOS
