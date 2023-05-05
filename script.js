@@ -137,20 +137,26 @@ function agregarProductoAlCarrito(e, informatica) {
 }
 
 function renderizarCarrito(arrayDeProductos) {
-    carritoDOM.innerHTML = `<h4 class="linea">En carrito: </h4>`
-    carritoDOM.innerHTML += `<button id="cerrarCarrito">CERRAR</button>`
-    carritoDOM.style.height = "90%"
+    carritoDOM.innerHTML = `<a><i class="fa-solid fa-xmark d-flex justify-content-end" id=cerrarCarrito></i></a>`
+    carritoDOM.innerHTML += `<h4 class="linea">Mi compra: </h4>`
+    carritoDOM.style.height = "100%"
     let precioTotal = 0;
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal}) => {
-        carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${primerLetraMayuscula(nombre)}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}</p>`
+        carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${primerLetraMayuscula(nombre)}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}$</p>`
         precioTotal += subtotal
     }) 
-    carritoDOM.innerHTML += `<h4>Precio total con IVA: ${precioConIva(precioTotal)}</h4>`
+    carritoDOM.innerHTML += `<h4>Precio total con IVA: ${precioConIva(precioTotal)}$</h4>`
     carritoDOM.innerHTML += `<button id=comprar>Finalizar compra</button>`
-    
 
     let botonComprar = document.getElementById("comprar")
     botonComprar.addEventListener("click", finalizarCompra)
+
+    let btnCerrarCarrito = document.getElementById("cerrarCarrito")
+    btnCerrarCarrito.addEventListener("click", cerrarCarrito)
+
+    function cerrarCarrito() {
+        carritoDOM.classList.toggle("ocultar")
+    }
 }
 
 function precioConIva(precio) {
