@@ -9,8 +9,6 @@ fetch("productos.json")
     .then(respuesta => respuesta.json())
     .then(productos => {
         mostrarProductos(productos)
-        // let buscar = document.getElementById("buscar")
-        // buscar.addEventListener("click", () => filtrar(productos))
         let buscador = document.getElementById("buscador")
         buscador.addEventListener("input", () => {
             filtrar(productos)
@@ -18,38 +16,61 @@ fetch("productos.json")
 })
 
 // REGISTRO
-let sesionIniciada;
-let registro = document.getElementById("login")
-let pantallaCompra = document.getElementById("pantallaCompra")
+let sesionIniciada = JSON.parse(localStorage.getItem("sesionIniciada")) || false;
 
-// REGISTRARSE
 let usuario = document.getElementById("usuario")
-let contrasenia = document.getElementById("contrasenia")
+let email = document.getElementById("email")
+let contrasenia = document.getElementById("password")
 let registrarse = document.getElementById("registrarse")
 
+let infoUsuario;
 registrarse.addEventListener("click", () => {
-  let infoUsuario = { usuario: usuario.value, contrasenia: contrasenia.value}
-  localStorage.setItem("infoUsuario", JSON.stringify(infoUsuario))
-  registro.classList.add("ocultar")
-  sesionIniciada = false
+    if (usuario.value && email.value && contrasenia.value) {
+        let infoUsuario = { usuario: usuario.value, email: email.value, contrasenia: contrasenia.value}
+        alerta("success", "Creaste tu usuario", `${infoUsuario.usuario}`)
+        localStorage.setItem(`infoUsuario_${usuario.value}`, JSON.stringify(infoUsuario))
+        mostrarSignin()
+    } else {
+        alerta("error", "Por favor, completa todos los campos para registrarte")
+    }
 })
 
 // INICIAR SESION
 let usuarioIS = document.getElementById("usuarioIS")
-let contraseniaIS = document.getElementById("contraseniaIS")
+let passwordIS = document.getElementById("passwordIS")
 let iniciarSesion = document.getElementById("iniciarSesion")
 
 
-let infoUsuario;
 iniciarSesion.addEventListener("click", () => {
-  infoUsuario = JSON.parse(localStorage.getItem("infoUsuario"))
-  sesionIniciada = true
-  if (infoUsuario.usuario == usuarioIS.value && infoUsuario.contrasenia == contraseniaIS.value) {
-    alerta("success", "Tu nombre de usuario es:", `${infoUsuario.usuario}`)   
+  infoUsuario = JSON.parse(localStorage.getItem(`infoUsuario_${usuarioIS.value}`))
+  if (infoUsuario && infoUsuario.usuario == usuarioIS.value && infoUsuario.contrasenia == passwordIS.value) {
+    alerta("success", "Iniciaste sesión como", `${infoUsuario.usuario}`) 
+    sesionIniciada = true  
+    localStorage.setItem("sesionIniciada", JSON.stringify(sesionIniciada));
+    sesionIniciada = true
   } else {
-    alerta("error", "Datos incorrectos, intente nuevamente")
+    alerta("error", "Datos incorrectos", "Intente nuevamente")
   }
+
 })
+
+// CAMBIAR REGISTRO - INICIO SESION
+const $btnRegistro = document.querySelector("#vuelveRegistro");
+const $btnInicioSesion = document.querySelector("#vuelveSesion");
+const $formRegistro = document.querySelector("#signup");
+const $formInicioSesion = document.querySelector("#signin");
+
+$btnRegistro.addEventListener("click", () => {
+  $formRegistro.classList.remove("ocultar");
+  $formInicioSesion.classList.add("ocultar");
+});
+
+$btnInicioSesion.addEventListener("click", mostrarSignin)
+
+function mostrarSignin() {
+  $formInicioSesion.classList.remove("ocultar");
+  $formRegistro.classList.add("ocultar");
+};
 
 function mostrarProductos(arrayProductos) {
     let contenedor = document.getElementById("contenedorProductos")
@@ -111,13 +132,13 @@ function agregarProductoAlCarrito(e, informatica) {
             localStorage.setItem("carrito", JSON.stringify(carrito))
             renderizarCarrito(carrito)
     } else {
-    alerta("error", "No hay stock", `No se puedo agregar el producto ${productoBuscado.nombre} al carrito`)
+    alerta("error", "No hay stock", `No se puedo agregar el producto ${primerLetraMayuscula(productoBuscado.nombre)} al carrito`)
     }
 }
 
 function renderizarCarrito(arrayDeProductos) {
-    if (carrito.length > 0) {
-    carritoDOM.innerHTML = `<h4>En carrito: </h4>`
+    carritoDOM.innerHTML = `<h4 class="linea">En carrito: </h4>`
+    carritoDOM.innerHTML += `<button id="cerrarCarrito">CERRAR</button>`
     carritoDOM.style.height = "90%"
     let precioTotal = 0;
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal}) => {
@@ -130,10 +151,6 @@ function renderizarCarrito(arrayDeProductos) {
 
     let botonComprar = document.getElementById("comprar")
     botonComprar.addEventListener("click", finalizarCompra)
-    } else {
-        carritoDOM.innerHTML = `<h4>CARRITO VACIO</h4>`
-        carritoDOM.style.height = "15%";
-    }
 }
 
 function precioConIva(precio) {
@@ -147,17 +164,21 @@ function filtrar(informatica) {
 }
   
 function mostrarCarrito() {
-      let contenedorProductos = document.getElementById("contenedorProductos")
-      carritoDOM.classList.toggle("ocultar")
-      contenedorProductos.classList.toggle("ocultar")
+    if (carrito.length < 1) {
+        alertaAlta("El carrito esta vacio")
+        carritoDOM.classList.toggle("ocultar")
+    }
+    carritoDOM.classList.toggle("ocultar")
 }
 
 function finalizarCompra() {
+    sesionIniciada = JSON.parse(localStorage.getItem("sesionIniciada")) || false;
     if (sesionIniciada) {
-    alerta("", `¡Muchas gracias por su compra!`, `${primerLetraMayuscula(infoUsuario.usuario)}, te enviamos un correo con la factura`)
+    alerta("", `¡Muchas gracias por su compra!`, `Te enviamos un correo con la factura`)
     localStorage.removeItem("carrito")
     carrito = []
     renderizarCarrito(carrito)
+    carritoDOM.classList.toggle("ocultar")
     } else {
         alerta("error", "Por favor inicie sesion")
     }
@@ -216,30 +237,14 @@ function alertaBaja(text) {
     }).showToast();    
 }
 
-// let usuario;
-// function crearUsuario() {
-    
-//   Swal.fire({
-//     title: "Ingrese su nombre",
-//     input: "text",
-//     showCancelButton: true,
-//     confirmButtonText: "Guardar",
-//     cancelButtonText: "Cancelar",
-//     inputValidator: (value) => {
-//       if (!value) {
-//         return "Por favor ingresa un nombre válido";
-//       }
-//     }
-//   }).then((resultado) => {
-//     if (resultado.isConfirmed) {
-//         usuario = resultado.value.toLowerCase();
-//         Swal.fire("Tu nombre de usuario es:", `${usuario}`);
-//     }
-//   });
-// }
-
-// const iniciarSesion = document.getElementById("iniciar-sesion")
-// iniciarSesion.addEventListener("click", crearUsuario)
+function alertaAlta(text) {
+    Toastify({
+        text: text,
+        duration: 1000,
+        gravity: 'top',
+        position: 'center',
+    }).showToast();    
+}
 
 let botonPrecio = document.getElementById("btn-precio")
 botonPrecio.addEventListener("click", filtrarPorPrecio)

@@ -8,6 +8,11 @@ button {
     border-radius: 20px;
 }
 
+.linea {
+    display: inline;
+
+}
+
 button:hover {
     transform: scale(1.02);
     background-color: rgb(15, 15, 15);
@@ -15,6 +20,40 @@ button:hover {
     animation-duration: 2.5s;
     animation-iteration-count: 1;
     animation-timing-function: ease;
+}
+
+.btn-collapse {
+    padding-top: 12px;
+    padding-left:15px;
+    background-color: #ffffff !important;
+    display: flex;
+    flex-direction: column;
+    width: 3.8rem;
+    height: 3.8rem;
+    border: 0;
+    background:transparent;
+    gap: .65rem;
+}
+
+.btn-collapse > div {
+    background: black;
+    height: 2px;
+    width: 100%;
+    border-radius: 5px;
+    transition: all .8s;
+    transform-origin: left;
+}
+
+.btn-collapse:hover div:first-child {
+    transform: rotate(45deg);
+}
+
+.btn-collapse:hover div:nth-child(2) {
+    opacity: 0;
+}
+
+.btn-collapse:hover div:last-child {
+    transform: rotate(-45deg);
 }
 
 @keyframes efecto-button {
@@ -25,6 +64,10 @@ button:hover {
 input {
     border-radius: 15px;
     padding: 2px 5px 2px 10px
+}
+
+input:hover {
+    background-color: #f0f0f0;
 }
 
 select {
@@ -39,6 +82,63 @@ nav {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+main {
+    margin:2rem
+}
+
+.registros {
+    display: flex;
+    color: white;
+    margin: 20px 0px 15px 0px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#vuelveSesion {
+    color: rgb(15, 15, 15);
+}
+
+#vuelveSesion:hover {
+    color:#636363
+}
+
+#vuelveRegistro {
+    color: rgb(15, 15, 15);
+}
+
+#vuelveRegistro:hover {
+    color:#636363
+}
+
+.form {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form input {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.sign-up {
+    background-color: #bdbdbd;
+    width: 400px;
+    height: 400px;
+    border-radius: 35px;
+}
+
+.sign-in {
+    background-color: #bdbdbd;
+    width: 400px;
+    height: 400px;
+    border-radius: 35px;
 }
 
 nav button {
@@ -115,9 +215,15 @@ a:hover {
 }
 
 #comprar {
-    background-color: white;
+    background-color: white !important; 
     color:rgb(15, 15, 15);
-    border-radius: 15px;
+}
+
+#cerrarCarrito {
+    position: absolute;
+    background-color: white !important; 
+    color:rgb(15, 15, 15);
+    margin-left: 20.5rem;
 }
 
 #carrito {
@@ -131,8 +237,7 @@ a:hover {
     background-color: rgb(15, 15, 15);
     color: rgb(255, 255, 255);
     padding: 15px;
-    margin-top: 15px;
-    margin-bottom: 20px;
+    margin: 15px 10px 25px 0px;
     align-items: end;
     justify-content: end;
     z-index: 10;
@@ -140,6 +245,7 @@ a:hover {
     max-height: 90%;
     overflow-y: auto;
     margin-top: 3.5rem;
+    opacity: 0.92;
 }
 
 #botonCarrito {
@@ -195,21 +301,21 @@ a:hover {
     align-items: center;
     justify-content: start;
     margin-right: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 10px;
-    box-shadow: 2px 2px rgb(105, 105, 105), -1rem 10px 0.5rem rgb(185, 185, 185)
+    box-shadow: 2px 2px rgb(105, 105, 105), -1rem 9px 1.2rem rgb(185, 185, 185)
 }
 
 .tarjetaProducto:hover {
-    animation-name: tarjeta-escala;
+    animation-name: tarjeta-movim;
     animation-duration: 0.5s;
     animation-timing-function:ease;
     animation-fill-mode: forwards;
 }
 
-@keyframes tarjeta-escala {
-0% {transform: scale(1)}
-100% {transform: scale(0.95)}
+@keyframes tarjeta-movim {
+0% {transform:translate(0);}
+100% {transform: translateY(-10px)}
 }
 
 .ocultar {
