@@ -412,4 +412,16 @@ footer p {
     nav li a {
         font-size: 17px;
     }
+
+    .btn-collapse:hover div:first-child {
+        transform: none;
+    }
+    
+    .btn-collapse:hover div:nth-child(2) {
+        opacity: none;
+    }
+    
+    .btn-collapse:hover div:last-child {
+        transform: none;
+    }
 }

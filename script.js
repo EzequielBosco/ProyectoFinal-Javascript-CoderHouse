@@ -155,7 +155,6 @@ function renderizarCarrito(arrayDeProductos) {
     carritoDOM.innerHTML = `<a><i class="fa-solid fa-xmark d-flex justify-content-end" id=cerrarCarrito></i></a>`
     carritoDOM.innerHTML += `<h4 class="linea">Mi compra: </h4>`
     carritoDOM.style.height = "100%"
-    carritoDOM.style.width = "40%"
     let precioTotal = 0;
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal}) => {
         carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${primerLetraMayuscula(nombre)}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}$</p>`
@@ -177,7 +176,6 @@ function renderizarCarrito(arrayDeProductos) {
         carritoDOM.innerHTML = `<a><i class="fa-solid fa-xmark d-flex justify-content-end" id=cerrarCarrito></i></a>`
         carritoDOM.innerHTML += `<h4 class=text-center>Carrito vacío</h4>`
         carritoDOM.innerHTML += `<i class="fa-solid fa-cart-shopping d-flex justify-content-center"></i>`
-        carritoDOM.style.width = "20%"
 
         let btnCerrarCarrito = document.getElementById("cerrarCarrito")
         btnCerrarCarrito.addEventListener("click", cerrarCarrito)
