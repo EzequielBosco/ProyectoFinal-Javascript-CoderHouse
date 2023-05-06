@@ -15,8 +15,9 @@ fetch("productos.json")
         })
 })
 
+
+let sesionIniciada = JSON.parse(sessionStorage.getItem("sesionIniciada")) || false;
 // REGISTRO
-let sesionIniciada = JSON.parse(localStorage.getItem("sesionIniciada")) || false;
 
 let usuario = document.getElementById("usuario")
 let email = document.getElementById("email")
@@ -40,18 +41,16 @@ let usuarioIS = document.getElementById("usuarioIS")
 let passwordIS = document.getElementById("passwordIS")
 let iniciarSesion = document.getElementById("iniciarSesion")
 
-
 iniciarSesion.addEventListener("click", () => {
   infoUsuario = JSON.parse(localStorage.getItem(`infoUsuario_${usuarioIS.value}`))
   if (infoUsuario && infoUsuario.usuario == usuarioIS.value && infoUsuario.contrasenia == passwordIS.value) {
     alerta("success", "Iniciaste sesión como", `${infoUsuario.usuario}`) 
     sesionIniciada = true  
-    localStorage.setItem("sesionIniciada", JSON.stringify(sesionIniciada));
-    sesionIniciada = true
+    sessionStorage.setItem("sesionIniciada", JSON.stringify(sesionIniciada));
+    sessionStorage.setItem('nombreUsuario', infoUsuario.usuario);
   } else {
     alerta("error", "Datos incorrectos", "Intente nuevamente")
   }
-
 })
 
 // CAMBIAR REGISTRO - INICIO SESION
@@ -72,6 +71,20 @@ function mostrarSignin() {
   $formRegistro.classList.add("ocultar");
 };
 
+// CERRAR SESION
+const $btnCerrarSesion = document.querySelector("#cerrarSesion")
+$btnCerrarSesion.addEventListener("click", () => {
+    if (sessionStorage.getItem("sesionIniciada")) {
+    alertaAlta("Sesión cerrada")
+    sesionIniciada = false
+    sessionStorage.setItem("sesionIniciada", JSON.stringify(sesionIniciada))
+    sessionStorage.removeItem(`nombreUsuario`)
+    } else {
+        alerta("error", "No estás en una sesión")
+    }
+})
+
+// PRODUCTOS
 function mostrarProductos(arrayProductos) {
     let contenedor = document.getElementById("contenedorProductos")
     contenedor.innerHTML = ""
@@ -106,6 +119,7 @@ function restaurarImagen(img) {
     img.src = img.getAttribute("data-original-src");
 }
 
+// CARRITO
 function agregarProductoAlCarrito(e, informatica) {
     let posicionProd = informatica.findIndex(producto => producto.id == e.target.id)
     let productoBuscado = informatica.find(producto => producto.id === Number(e.target.id))
@@ -137,9 +151,11 @@ function agregarProductoAlCarrito(e, informatica) {
 }
 
 function renderizarCarrito(arrayDeProductos) {
+    if (carrito.length > 0) {
     carritoDOM.innerHTML = `<a><i class="fa-solid fa-xmark d-flex justify-content-end" id=cerrarCarrito></i></a>`
     carritoDOM.innerHTML += `<h4 class="linea">Mi compra: </h4>`
     carritoDOM.style.height = "100%"
+    carritoDOM.style.width = "40%"
     let precioTotal = 0;
     arrayDeProductos.forEach(({ nombre, precio, unidades, subtotal}) => {
         carritoDOM.innerHTML += `<h5>-Producto:</h5><p> ${primerLetraMayuscula(nombre)}, Precio: ${precio}, Unidades: ${unidades}, Subtotal: ${subtotal}$</p>`
@@ -157,6 +173,37 @@ function renderizarCarrito(arrayDeProductos) {
     function cerrarCarrito() {
         carritoDOM.classList.toggle("ocultar")
     }
+    } else {
+        carritoDOM.innerHTML = `<a><i class="fa-solid fa-xmark d-flex justify-content-end" id=cerrarCarrito></i></a>`
+        carritoDOM.innerHTML += `<h4 class=text-center>Carrito vacío</h4>`
+        carritoDOM.innerHTML += `<i class="fa-solid fa-cart-shopping d-flex justify-content-center"></i>`
+        carritoDOM.style.width = "20%"
+
+        let btnCerrarCarrito = document.getElementById("cerrarCarrito")
+        btnCerrarCarrito.addEventListener("click", cerrarCarrito)
+
+        function cerrarCarrito() {
+            carritoDOM.classList.toggle("ocultar")
+        }
+    }
+}
+
+function mostrarCarrito() {
+    carritoDOM.classList.toggle("ocultar")
+}
+
+function finalizarCompra() {
+    sesionIniciada = JSON.parse(sessionStorage.getItem("sesionIniciada")) || false;
+    let nombreUsuario = sessionStorage.getItem('nombreUsuario');
+    if (sesionIniciada) {
+    alerta("", `¡Muchas gracias por su compra!`, `${primerLetraMayuscula(nombreUsuario)}, te enviamos un correo con la factura`)
+    localStorage.removeItem("carrito")
+    carrito = []
+    renderizarCarrito(carrito)
+    carritoDOM.classList.toggle("ocultar")
+    } else {
+        alerta("error", "Por favor inicie sesion")
+    }
 }
 
 function precioConIva(precio) {
@@ -168,28 +215,6 @@ function filtrar(informatica) {
     let arrayFiltrado = informatica.filter(producto => producto.nombre.includes(buscador.value.toLowerCase()))
     mostrarProductos(arrayFiltrado)
 }
-  
-function mostrarCarrito() {
-    if (carrito.length < 1) {
-        alertaAlta("El carrito esta vacio")
-        carritoDOM.classList.toggle("ocultar")
-    }
-    carritoDOM.classList.toggle("ocultar")
-}
-
-function finalizarCompra() {
-    sesionIniciada = JSON.parse(localStorage.getItem("sesionIniciada")) || false;
-    if (sesionIniciada) {
-    alerta("", `¡Muchas gracias por su compra!`, `Te enviamos un correo con la factura`)
-    localStorage.removeItem("carrito")
-    carrito = []
-    renderizarCarrito(carrito)
-    carritoDOM.classList.toggle("ocultar")
-    } else {
-        alerta("error", "Por favor inicie sesion")
-    }
-}
-
 // let inputs = document.getElementsByClassName("input")
 // console.log(inputs)
 // for (const input of inputs) {

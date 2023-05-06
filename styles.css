@@ -56,6 +56,18 @@ button:hover {
     transform: rotate(-45deg);
 }
 
+.btn-collapse:active div:first-child {
+    transform: rotate(45deg);
+}
+
+.btn-collapse:active div:nth-child(2) {
+    opacity: 0;
+}
+
+.btn-collapse:active div:last-child {
+    transform: rotate(-45deg);
+}
+
 .btn-collapse:focus {
     box-shadow: none;
 }
@@ -116,6 +128,29 @@ main {
 
 #vuelveRegistro:hover {
     color:#636363
+}
+
+#cerrarSesion {
+    color: rgb(15, 15, 15);
+}
+
+#cerrarSesion:hover {
+    animation-name: efecto-cerrar-sesion;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes efecto-cerrar-sesion {
+    50% {
+        color: #7c7c7c;
+        transform:scale(1.02);
+    }
+    100% {
+        color:rgb(255, 255, 255);
+        transform: scale(1.05)
+    }
 }
 
 .form {
@@ -372,5 +407,9 @@ footer p {
 
     #carrito {
         width: 70%;
+    }
+
+    nav li a {
+        font-size: 17px;
     }
 }
