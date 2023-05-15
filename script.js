@@ -9,10 +9,61 @@ fetch("productos.json")
     .then(respuesta => respuesta.json())
     .then(productos => {
         mostrarProductos(productos)
+
+        //filtros 
         let buscador = document.getElementById("buscador")
         buscador.addEventListener("input", () => {
-            filtrar(productos)
+            productosFiltrados = filtrarPorBusqueda(productos);
+            aplicarFiltros();
         })
+
+        let filtroCategorias = document.getElementById("filtro-categoria");
+        filtroCategorias.addEventListener("change", () => {
+            productosFiltrados = filtrarPorCategorias(productos);
+            aplicarFiltros();
+        });
+
+        let filtroPrecio = document.getElementById("filtro-precio");
+        filtroPrecio.addEventListener("change", () => {
+            productosFiltrados = filtrarPorPrecio(productos);
+            aplicarFiltros();
+        });
+
+        function filtrarPorBusqueda(productos) {
+            let busqueda = buscador.value.toLowerCase();
+            return productos.filter(producto => producto.nombre.toLowerCase().includes(busqueda));
+        }
+
+        function filtrarPorCategorias(productos) {
+            let opcion = filtroCategorias.value;
+            if (opcion === "celulares") {
+                return productos.filter(producto => producto.categoria === "celulares");
+            } else if (opcion === "tablets") {
+                return productos.filter(producto => producto.categoria === "tablets");
+            } else {
+                return productos;
+            }
+        }
+
+        function filtrarPorPrecio(productos) {
+            let opcion = filtroPrecio.value;
+            return productos.slice().sort((a, b) => {
+                if (opcion === "mayor") {
+                    return b.precio - a.precio;
+                } else {
+                    return a.precio - b.precio;
+                }
+            });
+        }
+
+        function aplicarFiltros() {
+            let productosFiltradosFinal = productosFiltrados;
+            productosFiltradosFinal = filtrarPorBusqueda(productosFiltradosFinal);
+            productosFiltradosFinal = filtrarPorCategorias(productosFiltradosFinal);
+            productosFiltradosFinal = filtrarPorPrecio(productosFiltradosFinal);
+            mostrarProductos(productosFiltradosFinal);
+        }
+        
 })
 
 
@@ -92,7 +143,7 @@ function mostrarProductos(arrayProductos) {
     arrayProductos.forEach(producto => {
         let tarjetaProducto = document.createElement("div")
         tarjetaProducto.className = "tarjetaProducto"
-
+        
         tarjetaProducto.innerHTML = `
             <h3 class=titulo-producto>${primerLetraMayuscula(producto.nombre)}</h3>
             <p class=categoria-producto>${primerLetraMayuscula(producto.categoria)}</p>
@@ -108,8 +159,9 @@ function mostrarProductos(arrayProductos) {
         let boton = document.getElementById(producto.id)
         boton.addEventListener("click", (e) => {
             agregarProductoAlCarrito(e, arrayProductos)
+        })
     })
-})}
+}
 
 function cambiarImagen(img, imagenAtras) {
     img.src = imagenAtras;
@@ -147,6 +199,9 @@ function agregarProductoAlCarrito(e, informatica) {
             renderizarCarrito(carrito)
     } else {
     alerta("error", "No hay stock", `No se puedo agregar el producto ${primerLetraMayuscula(productoBuscado.nombre)} al carrito`)
+    $("div").click(function() {
+        $(e.target.closest(".tarjetaProducto")).hide("slow");
+    });
     }
 }
 
@@ -213,6 +268,37 @@ function filtrar(informatica) {
     let arrayFiltrado = informatica.filter(producto => producto.nombre.includes(buscador.value.toLowerCase()))
     mostrarProductos(arrayFiltrado)
 }
+
+function primerLetraMayuscula(palabra) {
+    return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+}
+
+function alerta(icon, title, text) {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+    })
+}
+
+function alertaBaja(text) {
+    Toastify({
+        text: text,
+        duration: 2000,
+        gravity: 'bottom',
+        position: 'right',
+    }).showToast();    
+}
+
+function alertaAlta(text) {
+    Toastify({
+        text: text,
+        duration: 1000,
+        gravity: 'top',
+        position: 'center',
+    }).showToast();    
+}
+
 // let inputs = document.getElementsByClassName("input")
 // console.log(inputs)
 // for (const input of inputs) {
@@ -245,79 +331,18 @@ function filtrar(informatica) {
 //     renderizarTarjetas(arrayFiltrado)
 // }
 
-function primerLetraMayuscula(palabra) {
-    return palabra.charAt(0).toUpperCase() + palabra.slice(1);
-}
-
-function alerta(icon, title, text) {
-    Swal.fire({
-        icon: icon,
-        title: title,
-        text: text,
-    })
-}
-
-function alertaBaja(text) {
-    Toastify({
-        text: text,
-        duration: 2000,
-        gravity: 'bottom',
-        position: 'right',
-    }).showToast();    
-}
-
-function alertaAlta(text) {
-    Toastify({
-        text: text,
-        duration: 1000,
-        gravity: 'top',
-        position: 'center',
-    }).showToast();    
-}
-
-let botonPrecio = document.getElementById("btn-precio")
-botonPrecio.addEventListener("click", filtrarPorPrecio)
-
-function filtrarPorPrecio() {
-    let filtrar = document.getElementById("filtro-precio");
-    let opcion = filtrar.value;
-    let productosOrdenados = informatica.sort((a, b) => {
-      if (opcion === "mayor") {
-        return b.precio - a.precio;
-      } else {
-        return a.precio - b.precio;
-      }
-    });
-    mostrarProductos(productosOrdenados);
-}
-
-let botonCategorias = document.getElementById("btn-categoria")
-botonCategorias.addEventListener("click", filtrarPorCategorias)
-
-function filtrarPorCategorias() {
-    let filtrados = document.getElementById("filtro-categoria")
-    let opcion = filtrados.value
-    if (opcion === "celulares") {
-        productosPorCategoria = informatica.filter(producto => producto.categoria === "celulares");
-    } else if (opcion === "tablets") {
-        productosPorCategoria = informatica.filter(producto => producto.categoria === "tablets");
-    } else {
-        productosPorCategoria = informatica;
-    }
-    
-    mostrarProductos(productosPorCategoria);
-}
-
+//---------------------------------------------------------
 
 // FILTROS
 // let buscador = document.getElementById("buscador")
 // buscador.addEventListener("input", filtrarPorNombre)
 
 // let inputs = document.getElementsByClassName("input")
-// console.log(inputs)
+
 // for (const input of inputs) {
 //   input.addEventListener("click", filtrarPorCategoria)
 // }
+// console.log(inputs)
 
 // function filtrarPorCategoria(e) {
 //   let filtros = []
@@ -336,19 +361,3 @@ function filtrarPorCategorias() {
 //   } */
 //   renderizarTarjetas(arrayFiltrado.length > 0 ? arrayFiltrado : productos)
 // }
-
-
-// PRODUCTOS
-// `
-//     <h3 class=titulo-producto>${primerLetraMayuscula(producto.nombre)}</h3>
-//     <p class=categoria-producto>${primerLetraMayuscula(producto.categoria)}</p>
-//     <section class=imagenes>
-//         <img src="${producto.imagen.frente}"></img>
-//         <img src="${producto.imagen.derecha}"></img>
-//         <img src="${producto.imagen.izquierda}"></img>
-//         <img src="${producto.imagen.atras}"></img>
-//     </section>
-//     <h3 class=categoria-precio>Precio: ${producto.precio}</h3>
-//     <p>Quedan <span id=span${producto.id}>${producto.stock}</span> unidades</p>
-//     <button class=boton-agregar id=${producto.id}>AGREGAR AL CARRITO</button>
-// `
